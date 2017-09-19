@@ -48,11 +48,11 @@ def extract_xml(filein, langs, elements):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-f', '--file', required=True, nargs='+', help='Spinn3r tar.gz file')
-    parser.add_argument('-l', '--languages', required=False, nargs='+', help='languages to be extracted')
-    parser.add_argument('-e', '--elements', required=True, nargs='+', help='elements to be extracted')
-    parser.add_argument('-u', '--unescape', required=False, action="store_true", help='unescape text')
-    parser.add_argument('-c', '--clean', required=False, action="store_true", help='clean text')
+    parser.add_argument('-f', '--file', required=True, nargs='+', help='Spinn3r tar.gz file(s)')
+    parser.add_argument('-l', '--languages', required=False, nargs='+', help='language(s) to be extracted (e.g. en)')
+    parser.add_argument('-e', '--elements', required=True, nargs='+', help='element(s) to be extracted (e.g. title, description)')
+    parser.add_argument('-u', '--unescape', required=False, action="store_true", help='unescape text (e.g. "&amp;"->"&")')
+    parser.add_argument('-c', '--clean', required=False, action="store_true", help='clean text (drop <*>/URLs, condense spaces)')
     args = parser.parse_args()
     
     langs = set(args.languages)

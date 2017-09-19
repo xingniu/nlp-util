@@ -6,10 +6,10 @@ import utils
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-f', '--file', required=False, help='input file (unzipped, glob patterns are supported)')
+    parser.add_argument('-f', '--file', required=False, help='unzipped input file(s) (glob patterns are supported)')
     parser.add_argument('-a', '--feature', required=False, help='the feature used for filtering')
-    parser.add_argument('-t', '--threshold', required=False, type=float, help='the threshold used for filtering (keep >=)')
-    parser.add_argument('-e', '--entailment', required=False, help='the entailment type used for filtering (RE)')
+    parser.add_argument('-t', '--threshold', required=False, type=float, help='the threshold used for filtering (feature value >= threshold are kept)')
+    parser.add_argument('-e', '--entailment', required=False, help='the entailment type(s) used for filtering (regular expression)')
     args = parser.parse_args()
     
     for line in utils.get_input(args.file):

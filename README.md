@@ -7,6 +7,7 @@ Random utilities for NLP
 | :---------- | :----- | :---------- |
 | ICWSM 2009 Spinn3r Blog Dataset | Spinn3r-2009-extract.py | Extract select (and clean) text |
 | PPDB (Paraphrase Database) | PPDB-extract.py | Extract select paraphrases |
+| MSLT (Microsoft Speech Language Translation) | MSLT-repack.sh, MSLT-extract.py | Extract monolingual/parallel data |
 
 #### [ICWSM 2009 Spinn3r Blog Dataset](http://www.icwsm.org/data/)
 ```
@@ -36,6 +37,28 @@ Optional arguments:
                         the threshold used for filtering (feature value >= threshold are kept)
   -e ENTAILMENT, --entailment ENTAILMENT
                         the entailment type(s) used for filtering (regular expression)
+```
+
+#### [MSLT (Microsoft Speech Language Translation)](https://github.com/MicrosoftTranslator/MSLT-Corpus)
+1. Repack MSLT text (Python has an issue in handling original zip file).
+```
+bash MSLT-repack.sh /absolute/path/to/MSLT_Corpus.zip
+```
+2. Extract parallel or monolingual data from MSLT_Corpus.tgz
+```
+Usage:    MSLT-extract.py -f FILE -s SOURCE [-t TARGET] [-c CATEGORY] [-o OUTPUT]
+Examples: python MSLT-extract.py -f MSLT_Corpus.tgz -s fr -t en -c dev -o MSLT.fr-en
+          python MSLT-extract.py -f MSLT_Corpus.tgz -s fr > MSLT.fr
+Optional arguments:
+  -f FILE, --file FILE  input repacked tgz file
+  -s SOURCE, --source SOURCE
+                        source language (e.g. fr)
+  -t TARGET, --target TARGET
+                        target language (e.g. en)
+  -c CATEGORY, --category CATEGORY
+                        dev or test? (default: dev)
+  -o OUTPUT, --output OUTPUT
+                        output file (used for parallel data)
 ```
 
 ## Statistics

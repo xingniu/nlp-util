@@ -6,8 +6,8 @@ Random utilities for NLP
 | Corpus Name | Script | Description |
 | :---------- | :----- | :---------- |
 | ICWSM 2009 Spinn3r Blog Dataset | Spinn3r-2009-extract.py | Extract select (and clean) text |
-| PPDB (Paraphrase Database) | PPDB-extract.py | Extract select paraphrases |
 | MSLT (Microsoft Speech Language Translation) | MSLT-repack.sh, MSLT-extract.py | Extract monolingual/parallel data |
+| PPDB (Paraphrase Database) | PPDB-extract.py | Extract select paraphrases |
 
 #### [ICWSM 2009 Spinn3r Blog Dataset](http://www.icwsm.org/data/)
 ```
@@ -23,20 +23,6 @@ Optional arguments:
                         element(s) to be extracted (e.g. title, description)
   -u, --unescape        unescape text (e.g. "&amp;"->"&") (default: False)
   -c, --clean           clean text (drop <*>/URLs, condense spaces) (default: False)
-```
-
-#### [PPDB (Paraphrase Database)](http://paraphrase.org/#/download)
-```
-Usage:    PPDB-extract.py [-f FILE] [-a FEATURE] [-t THRESHOLD] [-e ENTAILMENT]
-Examples: gzip -dc ppdb-2.0-s-lexical.gz | python PPDB-extract.py -e Equivalence > output
-Optional arguments:
-  -f FILE, --file FILE  unzipped input file(s) (glob patterns are supported)
-  -a FEATURE, --feature FEATURE
-                        the feature used for filtering
-  -t THRESHOLD, --threshold THRESHOLD
-                        the threshold used for filtering (feature value >= threshold are kept)
-  -e ENTAILMENT, --entailment ENTAILMENT
-                        the entailment type(s) used for filtering (regular expression)
 ```
 
 #### [MSLT (Microsoft Speech Language Translation)](https://github.com/MicrosoftTranslator/MSLT-Corpus)
@@ -59,6 +45,20 @@ Optional arguments:
                         dev or test? (default: dev)
   -o OUTPUT, --output OUTPUT
                         output file (used for parallel data)
+```
+
+#### [PPDB (Paraphrase Database)](http://paraphrase.org/#/download)
+```
+Usage:    PPDB-extract.py [-f FILE] [-a FEATURE] [-t THRESHOLD] [-e ENTAILMENT]
+Examples: gzip -dc ppdb-2.0-s-lexical.gz | python PPDB-extract.py -e Equivalence > output
+Optional arguments:
+  -f FILE, --file FILE  unzipped input file(s) (glob patterns are supported)
+  -a FEATURE, --feature FEATURE
+                        the feature used for filtering
+  -t THRESHOLD, --threshold THRESHOLD
+                        the threshold used for filtering (feature value >= threshold are kept)
+  -e ENTAILMENT, --entailment ENTAILMENT
+                        the entailment type(s) used for filtering (regular expression)
 ```
 
 ## Statistics

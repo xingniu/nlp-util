@@ -66,6 +66,7 @@ Optional arguments:
 | Script | Description |
 | :----- | :---------- |
 | word-count.py | Count words |
+| probability-histogram.py | Generate a probability histogram |
 
 #### Word Count
 ```
@@ -79,4 +80,22 @@ Optional arguments:
   -b BLACK_LIST, --black-list BLACK_LIST
                         ignore words in the black list
   -s, --statistics      print statistics (default: False)
+```
+
+#### Probability Histogram
+```
+Usage:   probability-histogram.py [-i INPUT] [-c COLUMN] [-n] [-l LOWER] [-u UPPER] [-b BINS] [-p]
+Example: cat file | python probability-histogram.py -c 1 -n -p
+Optional arguments:
+  -i INPUT, --input INPUT
+                        input file(s) (glob patterns are supported)
+  -c COLUMN, --column COLUMN
+                        the index of column that contains values (default: 0)
+  -n, --normalize       normalize scores to [-1,1] (default: False)
+  -l LOWER, --lower LOWER
+                        the lower range of bins
+  -u UPPER, --upper UPPER
+                        the upper range of bins
+  -b BINS, --bins BINS  the number of bins (default: 10)
+  -p, --plot            plot the histogram (default: False)
 ```

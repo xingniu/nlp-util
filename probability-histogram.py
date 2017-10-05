@@ -51,5 +51,5 @@ if __name__ == "__main__":
         width = (bin_edges[1]-bin_edges[0])/2.0
         plt.xticks(bin_edges[:-1], ["[%.1f,%.1f]" % (bin_edges[i],bin_edges[i+1]) for i in xrange(len(bin_edges)-1)])
         plt.bar(bin_edges[:-1], hist[0]/float(len(scores)), width, align='center', alpha=0.5)
-        plt.xlim([min(bin_edges), max(bin_edges)])
+        plt.xlim([2*bin_edges[0]-bin_edges[1], bin_edges[-1]])
         plt.show()

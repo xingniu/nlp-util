@@ -1,5 +1,5 @@
 # nlp-util
-Random utilities for NLP
+Random utilities for NLP. Many of them were designed for MT (Machine Translation) experiments, but they can still be used for general purposes.
 
 ## Corpus Preprocessing
 
@@ -61,14 +61,29 @@ Optional arguments:
                         the entailment type(s) used for filtering (regular expression)
 ```
 
-## Statistics
+## Statistics and Analysis
 
 | Script | Description |
 | :----- | :---------- |
 | word-count.py | Count words |
 | probability-histogram.py | Generate a probability histogram |
+| sequence-diff.py | Compare sequences and display diffs |
 
 #### Word Count
+```
+Sample output:
+
+,	63751725
+.	61725497
+the	60873114
+to	35743675
+and	34360371
+a	29438769
+of	28104862
+i	27116174
+in	20234743
+"	16950626
+```
 ```
 Usage:   word-count.py [-i INPUT] [-w WHITE_LIST] [-b BLACK_LIST] [-s]
 Example: cat file | python word-count.py -w list -s > output
@@ -83,6 +98,23 @@ Optional arguments:
 ```
 
 #### Probability Histogram
+- Dependency: [NumPy](http://www.numpy.org/)
+```
+Sample output:
+
+-1.0	0.015589
+-0.8	0.047416
+-0.6	0.077869
+-0.4	0.137002
+-0.2	0.195826
+0.0	0.102647
+0.2	0.114418
+0.4	0.134427
+0.6	0.131316
+0.8	0.043490
+1.0
+```
+![plot of probability-histogram](figures/probability-histogram.svg)
 ```
 Usage:   probability-histogram.py [-i INPUT] [-c COLUMN] [-n] [-l LOWER] [-u UPPER] [-b BINS] [-p]
 Example: cat file | python probability-histogram.py -c 1 -n -p

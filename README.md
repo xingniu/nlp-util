@@ -99,3 +99,32 @@ Optional arguments:
   -b BINS, --bins BINS  the number of bins (default: 10)
   -p, --plot            plot the histogram (default: False)
 ```
+
+#### Sequence Diff
+```
+Sample output:
+
+1 CONST-0	you can remove it .
+....................................................................................................
+1 SEQUE-0	you can take it off .
+1 SEQUE-1	you can withdraw .
+====================================================================================================
+3 CONST-0	but , let 's face it , underachiever , dead @-@ end life , okay ?
+....................................................................................................
+3 SEQUE-0	let us be frank . he 's got a lousy job , he ain 't got no prospects .
+           	                     ^  ----                 -----------           -
+3 SEQUE-1	let us be frank . he has a lousy job , he no longer has any prospect .
+           	                     ^^                     +++++++++++++++
+====================================================================================================
+```
+```
+Usage:   sequence-diff.py -f FILE [FILE ...] [-c CONST [CONST ...]]
+Example: python sequence-diff.py -f file1 file2 -c file3 > output
+Optional arguments:
+  -f FILE [FILE ...], --file FILE [FILE ...]
+                        input files of sequences to be compared
+                        (the first file is the base to be compared with, such as reference translations)
+  -c CONST [CONST ...], --const CONST [CONST ...]
+                        files of sequences not participating in comparison,
+                        such as source sentences to be translated
+```

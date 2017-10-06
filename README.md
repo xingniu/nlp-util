@@ -1,6 +1,17 @@
 # nlp-util
 Random utilities for NLP. Many of them were designed for MT (Machine Translation) experiments, but they can still be used for general purposes.
 
+## Table of Contents
+
+- [Corpus Preprocessing](#corpus-preprocessing)
+  * [ICWSM 2009 Spinn3r Blog Dataset](#icwsm-2009-spinn3r-blog-dataset)
+  * [MSLT (Microsoft Speech Language Translation)](#mslt-microsoft-speech-language-translation)
+  * [PPDB (Paraphrase Database)](#ppdb-paraphrase-database)
+- [Statistics and Analysis](#statistics-and-analysis)
+  * [Word Count](#word-count)
+  * [Probability Histogram](#probability-histogram)
+  * [Sequence Diff](#sequence-diff)
+
 ## Corpus Preprocessing
 
 | Corpus Name | Script | Description |

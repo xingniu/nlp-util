@@ -40,16 +40,25 @@ if __name__ == "__main__":
         bin_edges = np.linspace(norm_lower, norm_upper, args.bins+1, endpoint=True)
     else:
         bin_edges = np.linspace(lower, upper, args.bins+1, endpoint=True)
+        
+    interval = (upper-lower)*1.0/args.bins
+    if interval >= 2:
+        decimal = str(0)
+    elif interval >= 0.1:
+        decimal = str(1)
+    else:
+        decimal = str(2)
+    df = "%."+decimal+"f"
 
     hist = np.histogram(scores, bins=args.bins, range=(lower,upper))
     for i in xrange(len(hist[0])):
-        print "%.1f\t%.6f" % (bin_edges[i],float(hist[0][i])/len(scores))
-    print "%.1f" % bin_edges[-1]
+        print (df+"\t%.6f") % (bin_edges[i],float(hist[0][i])/len(scores))
+    print df % bin_edges[-1]
     
     if args.plot:
         import matplotlib.pyplot as plt
         width = (bin_edges[1]-bin_edges[0])/2.0
-        plt.xticks(bin_edges[:-1], ["[%.1f,%.1f]" % (bin_edges[i],bin_edges[i+1]) for i in xrange(len(bin_edges)-1)])
+        plt.xticks(bin_edges[:-1], [("["+df+","+df+"]") % (bin_edges[i],bin_edges[i+1]) for i in xrange(len(bin_edges)-1)])
         plt.bar(bin_edges[:-1], hist[0]/float(len(scores)), width, align='center', alpha=0.5)
         plt.xlim([2*bin_edges[0]-bin_edges[1], bin_edges[-1]])
         plt.show()

@@ -19,20 +19,20 @@ if __name__ == "__main__":
     
     files = [open(f) for f in args.const+args.file]
     ref_index = len(args.const)
-    counter = 0
+    counter = 1
     for lines in izip(*files):
         seq_set = set()
         for i in xrange(ref_index, len(files)):
             seq_set.add(lines[i])
         if len(seq_set) > 1:
             for i in xrange(ref_index):
-                print "%d CONST-%d\t%s" % (counter, i, lines[i].strip())
+                print "%d CONST-%d\t%s" % (counter, i+1, lines[i].strip())
             for i in xrange(ref_index+1,len(files)):
                 if lines[ref_index] != lines[i]:
                     print "."*100
                     for dl in ndiff([lines[ref_index]], [lines[i]]):
                         if dl[0] == '-':
-                            print "%d SEQUE-%d\t%s" % (counter, 0, dl.strip()[2:])
+                            print "%d SEQUE-B\t%s" % (counter, dl.strip()[2:])
                         elif dl[0] == '+':
                             print "%d SEQUE-%d\t%s" % (counter, i-ref_index, dl.strip()[2:])
                         else:

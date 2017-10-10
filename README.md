@@ -147,14 +147,14 @@ Optional arguments:
 ```
 Sample output:
 
-1 CONST-0	you can remove it .
+1 CONST-1	you can remove it .
 ....................................................................................................
-1 SEQUE-0	you can take it off .
+1 SEQUE-B	you can take it off .
 1 SEQUE-1	you can withdraw .
 ====================================================================================================
-3 CONST-0	but , let 's face it , underachiever , dead @-@ end life , okay ?
+3 CONST-1	but , let 's face it , underachiever , dead @-@ end life , okay ?
 ....................................................................................................
-3 SEQUE-0	let us be frank . he 's got a lousy job , he ain 't got no prospects .
+3 SEQUE-B	let us be frank . he 's got a lousy job , he ain 't got no prospects .
            	                     ^  ----                 -----------           -
 3 SEQUE-1	let us be frank . he has a lousy job , he no longer has any prospect .
            	                     ^^                     +++++++++++++++

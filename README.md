@@ -1,25 +1,22 @@
 # nlp-util
 Random utilities for NLP. Many of them were designed for MT (Machine Translation) experiments, but they can still be used for general purposes.
 
-## Table of Contents
-
-- [Corpus Preprocessing](#corpus-preprocessing)
-  * [ICWSM 2009 Spinn3r Blog Dataset](#icwsm-2009-spinn3r-blog-dataset)
-  * [MSLT (Microsoft Speech Language Translation)](#mslt-microsoft-speech-language-translation)
-  * [PPDB (Paraphrase Database)](#ppdb-paraphrase-database)
-- [Statistics and Analysis](#statistics-and-analysis)
-  * [Word Count](#word-count)
-  * [Probability Histogram](#probability-histogram)
-  * [Sequence Diff](#sequence-diff)
-  * [Vertical Statistics](#vertical-statistics)
-
 ## Corpus Preprocessing
 
 | Corpus Name | Script | Description |
 | :---------- | :----- | :---------- |
-| ICWSM 2009 Spinn3r Blog Dataset | Spinn3r-2009-extract.py | Extract select (and clean) text |
-| MSLT (Microsoft Speech Language Translation) | MSLT-repack.sh, MSLT-extract.py | Extract monolingual/parallel data |
-| PPDB (Paraphrase Database) | PPDB-extract.py | Extract select paraphrases |
+| [ICWSM 2009 Spinn3r Blog Dataset](#icwsm-2009-spinn3r-blog-dataset) | Spinn3r-2009-extract.py | Extract select (and clean) text |
+| [MSLT (Microsoft Speech Language Translation)](#mslt-microsoft-speech-language-translation) | MSLT-repack.sh, MSLT-extract.py | Extract monolingual/parallel data |
+| [PPDB (Paraphrase Database)](#ppdb-paraphrase-database) | PPDB-extract.py | Extract select paraphrases |
+
+## Statistics and Analysis
+
+| Name | Script | Description |
+| :--- |:----- | :---------- |
+| [Word Count](#word-count) | word-count.py | Count words |
+| [Probability Histogram](#probability-histogram) | probability-histogram.py | Generate a probability histogram |
+| [Sequence Diff](#sequence-diff) | sequence-diff.py | Compare sequences and display diffs |
+| [Vertical Statistics](#vertical-statistics) | vertical-statistics.py | Calculate statistics vertically for values with fixed patterns |
 
 #### [ICWSM 2009 Spinn3r Blog Dataset](http://www.icwsm.org/data/)
 ```
@@ -72,14 +69,6 @@ Optional arguments:
   -e ENTAILMENT, --entailment ENTAILMENT
                         the entailment type(s) used for filtering (regular expression)
 ```
-
-## Statistics and Analysis
-
-| Script | Description |
-| :----- | :---------- |
-| word-count.py | Count words |
-| probability-histogram.py | Generate a probability histogram |
-| sequence-diff.py | Compare sequences and display diffs |
 
 #### Word Count
 ```
@@ -174,6 +163,7 @@ Optional arguments:
 ```
 
 #### Vertical Statistics
+- Dependency: [NumPy](http://www.numpy.org/)
 ```
 Sample input:
 

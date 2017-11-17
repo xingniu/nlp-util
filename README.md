@@ -11,6 +11,7 @@ Random utilities for NLP. Many of them were designed for MT (Machine Translation
   * [Word Count](#word-count)
   * [Probability Histogram](#probability-histogram)
   * [Sequence Diff](#sequence-diff)
+  * [Vertical Statistics](#vertical-statistics)
 
 ## Corpus Preprocessing
 
@@ -170,4 +171,29 @@ Optional arguments:
   -c CONST [CONST ...], --const CONST [CONST ...]
                         files of sequences not participating in comparison,
                         such as source sentences to be translated
+```
+
+#### Vertical Statistics
+```
+Sample input:
+
+BLEU = 33.99, 64.8/42.0/30.6/23.3 (BP=0.911, ratio=0.915, hyp_len=22925, ref_len=25061)
+BLEU = 32.78, 65.5/40.9/28.2/20.2 (BP=0.933, ratio=0.935, hyp_len=55947, ref_len=59823)
+BLEU = 37.29, 68.7/44.5/31.8/23.2 (BP=0.963, ratio=0.963, hyp_len=76162, ref_len=79064)
+
+Sample output:
+
+mean	BLEU = 34.69, 66.3/42.5/30.2/22.2 (BP=0.936, ratio=0.938, hyp_len=51678, ref_len=54649)
+median	BLEU = 33.99, 65.5/42.0/30.6/23.2 (BP=0.933, ratio=0.935, hyp_len=55947, ref_len=59823)
+```
+```
+Usage:   vertical-statistics.py [-i INPUT] [-l]
+                                [-m {mean,min,max,range,median,sum,std,var} [{mean,...,var} ...]]
+Example: cat file1 file2 file3 | python vertical-statistics.py -l -m mean median > output
+Optional arguments:
+  -i INPUT, --input INPUT
+                        input file(s) (glob patterns are supported)
+  -m, --metrics {mean,min,max,range,median,sum,std,var} [{mean,min,max,range,median,sum,std,var} ...]
+                        statistic metrics (default: ['mean'])
+  -l, --label           print metrics labels (default: False)
 ```

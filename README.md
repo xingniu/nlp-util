@@ -151,7 +151,7 @@ Sample output:
 ====================================================================================================
 ```
 ```
-Usage:   sequence-diff.py -f FILE [FILE ...] [-c CONST [CONST ...]]
+Usage:   sequence-diff.py -f FILE [FILE ...] [-c CONST [CONST ...]] [-d]
 Example: python sequence-diff.py -f file1 file2 -c file3 > output
 Optional arguments:
   -f FILE [FILE ...], --file FILE [FILE ...]
@@ -160,6 +160,8 @@ Optional arguments:
   -c CONST [CONST ...], --const CONST [CONST ...]
                         files of sequences not participating in comparison,
                         such as source sentences to be translated
+  -d, --condense        condense the comparison of multiple sequences without
+                        showing diffs (default: False)
 ```
 
 #### Vertical Statistics

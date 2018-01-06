@@ -12,6 +12,8 @@ if __name__ == "__main__":
         such as reference translations)')
     parser.add_argument('-c', '--const', required=False, nargs='+', default=[], \
         help='files of sequences not participating in comparison, such as source sentences to be translated')
+    parser.add_argument('-d', '--condense', required=False, action="store_true", \
+        help='condense the comparison of multiple sequences without showing diffs')
     args = parser.parse_args()
     
     if len(args.file) < 2:
@@ -27,15 +29,20 @@ if __name__ == "__main__":
         if len(seq_set) > 1:
             for i in xrange(ref_index):
                 print "%d CONST-%d\t%s" % (counter, i+1, lines[i].strip())
-            for i in xrange(ref_index+1,len(files)):
-                if lines[ref_index] != lines[i]:
-                    print "."*100
-                    for dl in ndiff([lines[ref_index]], [lines[i]]):
-                        if dl[0] == '-':
-                            print "%d SEQUE-B\t%s" % (counter, dl.strip()[2:])
-                        elif dl[0] == '+':
-                            print "%d SEQUE-%d\t%s" % (counter, i-ref_index, dl.strip()[2:])
-                        else:
-                            print "           \t%s" % (dl.strip()[2:])
+            if args.condense:
+                print "."*100
+                for i in xrange(ref_index,len(files)):
+                    print "%d SEQUE-%d\t%s" % (counter, i-ref_index+1, lines[i].strip())
+            else:
+                for i in xrange(ref_index+1,len(files)):
+                    if lines[ref_index] != lines[i]:
+                        print "."*100
+                        for dl in ndiff([lines[ref_index]], [lines[i]]):
+                            if dl[0] == '-':
+                                print "%d SEQUE-B\t%s" % (counter, dl.strip()[2:])
+                            elif dl[0] == '+':
+                                print "%d SEQUE-%d\t%s" % (counter, i-ref_index, dl.strip()[2:])
+                            else:
+                                print "           \t%s" % (dl.strip()[2:])
             print "="*100
         counter += 1

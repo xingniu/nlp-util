@@ -13,9 +13,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.white_list:
-        white_list = set(word for line in open(args.white_list) for word in line.split())
+        white_list = set(word for line in utils.get_input(args.white_list) for word in line.split())
     elif args.black_list:
-        black_list = set(word for line in open(args.black_list) for word in line.split())
+        black_list = set(word for line in utils.get_input(args.black_list) for word in line.split())
 
     counter = Counter()
     for line in utils.get_input(args.input):
@@ -28,8 +28,8 @@ if __name__ == "__main__":
 
     total = 0
     for item in counter.most_common():
-        print "%s\t%d" % item
+        print("%s\t%d" % (item[0].encode('utf8'), item[1]))
         total += item[1]
     if args.statistics:
-        print "### |WORD|\t%d" % total
-        print "### |TYPE|\t%d" % len(counter)
+        print("### |WORD|\t%d" % total)
+        print("### |TYPE|\t%d" % len(counter))

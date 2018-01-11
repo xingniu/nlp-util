@@ -13,7 +13,7 @@ Random utilities for NLP. Many of them were designed for MT (Machine Translation
 
 | Name | Script | Description |
 | :--- |:----- | :---------- |
-| [Word Count](#word-count) | word-count.py | Count words |
+| [Word Count](#word-count) | word-count.py | Count (OOV/IV) words |
 | [Probability Histogram](#probability-histogram) | probability-histogram.py | Generate a probability histogram |
 | [Sequence Diff](#sequence-diff) | sequence-diff.py | Compare sequences and display diffs |
 | [Vertical Statistics](#vertical-statistics) | vertical-statistics.py | Calculate statistics vertically for values with fixed patterns |
@@ -71,6 +71,7 @@ Optional arguments:
 ```
 
 #### Word Count
+It can also be used for counting/getting OOV (out-of-vocabulary) or IV (in-vocabulary) words.
 ```
 Sample output:
 
@@ -88,6 +89,8 @@ in	20234743
 ```
 Usage:   word-count.py [-i INPUT] [-w WHITE_LIST] [-b BLACK_LIST] [-s]
 Example: cat file | python word-count.py -w list -s > output
+         cat file | python word-count.py -b vocabulary > oov
+         cat file | python word-count.py -w vocabulary > iv
 Optional arguments:
   -i INPUT, --input INPUT
                         input file(s) (glob patterns are supported)

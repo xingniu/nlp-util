@@ -17,8 +17,8 @@ if __name__ == "__main__":
     
     scores = []
     for line in utils.get_input(args.input):
-        score = float(line.split()[args.column])
-        if not np.isnan(score):
+        score = utils.str2float(line.split()[args.column])
+        if score != None:
             scores.append(score)
     lower = np.min(scores)
     upper = np.max(scores)
@@ -51,14 +51,14 @@ if __name__ == "__main__":
     df = "%."+decimal+"f"
 
     hist = np.histogram(scores, bins=args.bins, range=(lower,upper))
-    for i in xrange(len(hist[0])):
-        print (df+"\t%.6f") % (bin_edges[i],float(hist[0][i])/len(scores))
-    print df % bin_edges[-1]
+    for i in range(len(hist[0])):
+        print((df+"\t%.6f") % (bin_edges[i],float(hist[0][i])/len(scores)))
+    print(df % bin_edges[-1])
     
     if args.plot:
         import matplotlib.pyplot as plt
         width = (bin_edges[1]-bin_edges[0])/2.0
-        plt.xticks(bin_edges[:-1], [("["+df+","+df+"]") % (bin_edges[i],bin_edges[i+1]) for i in xrange(len(bin_edges)-1)])
+        plt.xticks(bin_edges[:-1], [("["+df+","+df+"]") % (bin_edges[i],bin_edges[i+1]) for i in range(len(bin_edges)-1)])
         plt.bar(bin_edges[:-1], hist[0]/float(len(scores)), width, align='center', alpha=0.5)
         plt.xlim([2*bin_edges[0]-bin_edges[1], bin_edges[-1]])
         plt.show()

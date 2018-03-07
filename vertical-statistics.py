@@ -19,11 +19,14 @@ if __name__ == "__main__":
                         choices=["mean", "min", "max", "range", "median", "sum", "std", "var"],
                         help='statistic metrics')
     parser.add_argument('-l', '--label', required=False, action="store_true", help='print metrics labels')
+    parser.add_argument('-c', '--column', required=False, type=int, help='analyze a specified swhitespace-split column (c-th)')
     args = parser.parse_args()
-    
+
     value_str_mat = []
     for line in utils.get_input(args.input):
-        value_strs = re.findall("\d+\.*\d*", line)
+        if args.column != None:
+            line = line.split()[args.column-1]
+        value_strs = re.findall("-?\d+\.*\d*", line)
         if len(value_str_mat) != 0 and len(value_strs) != len(value_str_mat[0]):
             continue
         value_str_mat.append(value_strs)
@@ -31,7 +34,7 @@ if __name__ == "__main__":
     value_mat = [[float(value_str) for value_str in value_str_list] for value_str_list in value_str_mat]
     decimals_mat = [[decimals(value_str) for value_str in value_str_list] for value_str_list in value_str_mat]
     decimals_str_list = [str(dec) for dec in np.amax(decimals_mat, 0)]
-    
+
     for metrics in args.metrics:
         template = line.rstrip()
         if metrics == "mean":

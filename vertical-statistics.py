@@ -26,7 +26,7 @@ if __name__ == "__main__":
     for line in utils.get_input(args.input):
         if args.column != None:
             line = line.split()[args.column-1]
-        value_strs = re.findall("-?\d+\.*\d*", line)
+        value_strs = re.findall("-?\d+\.*\d*(?:e[+-]\d+)?", line)
         if len(value_str_mat) != 0 and len(value_strs) != len(value_str_mat[0]):
             continue
         value_str_mat.append(value_strs)

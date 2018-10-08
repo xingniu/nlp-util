@@ -15,8 +15,9 @@ Random utilities for NLP. Many of them were designed for MT (Machine Translation
 | :--- |:----- | :---------- |
 | [Word Count](#word-count) | word-count.py | Count (OOV/IV) words |
 | [Probability Histogram](#probability-histogram) | probability-histogram.py | Generate a probability histogram |
-| [Sequence Diff](#sequence-diff) | sequence-diff.py | Compare sequences and display diffs |
 | [Vertical Statistics](#vertical-statistics) | vertical-statistics.py | Calculate statistics vertically for values (with fixed patterns) |
+| [Sequence Diff](#sequence-diff) | sequence-diff.py | Compare sequences and display diffs |
+| [Bitext Identical Pairs](#bitext-identical-pairs) | bitext-identical-pairs.py | Detect (and remove) identical pairs from bitext |
 
 #### [ICWSM 2009 Spinn3r Blog Dataset](http://www.icwsm.org/data/)
 ```
@@ -136,6 +137,34 @@ Optional arguments:
   -p, --plot            plot the histogram (default: False)
 ```
 
+#### Vertical Statistics
+- Dependency: [NumPy](http://www.numpy.org/)
+```
+Sample input:
+
+BLEU = 33.99, 64.8/42.0/30.6/23.3 (BP=0.911, ratio=0.915, hyp_len=22925, ref_len=25061)
+BLEU = 32.78, 65.5/40.9/28.2/20.2 (BP=0.933, ratio=0.935, hyp_len=55947, ref_len=59823)
+BLEU = 37.29, 68.7/44.5/31.8/23.2 (BP=0.963, ratio=0.963, hyp_len=76162, ref_len=79064)
+
+Sample output:
+
+mean	BLEU = 34.69, 66.3/42.5/30.2/22.2 (BP=0.936, ratio=0.938, hyp_len=51678, ref_len=54649)
+median	BLEU = 33.99, 65.5/42.0/30.6/23.2 (BP=0.933, ratio=0.935, hyp_len=55947, ref_len=59823)
+```
+```
+Usage:   vertical-statistics.py [-i INPUT] [-l] [-c COLUMN]
+                                [-m {mean,min,max,range,median,sum,std,var} [{mean,...,var} ...]]
+Example: cat file1 file2 file3 | python vertical-statistics.py -l -m mean median > output
+Optional arguments:
+  -i INPUT, --input INPUT
+                        input file(s) (glob patterns are supported)
+  -m, --metrics {mean,min,max,range,median,sum,std,var} [{mean,min,max,range,median,sum,std,var} ...]
+                        statistic metrics (default: ['mean'])
+  -l, --label           print metrics labels (default: False)
+  -c COLUMN, --column COLUMN
+                        analyse a specified whitespace-split column (c-th) (default: None)
+```
+
 #### Sequence Diff
 ```
 Sample output:
@@ -166,30 +195,31 @@ Optional arguments:
   -d, --condense        condense the comparison of multiple sequences without showing diffs (default: False)
 ```
 
-#### Vertical Statistics
-- Dependency: [NumPy](http://www.numpy.org/)
+#### Bitext Identical Pairs
 ```
-Sample input:
-
-BLEU = 33.99, 64.8/42.0/30.6/23.3 (BP=0.911, ratio=0.915, hyp_len=22925, ref_len=25061)
-BLEU = 32.78, 65.5/40.9/28.2/20.2 (BP=0.933, ratio=0.935, hyp_len=55947, ref_len=59823)
-BLEU = 37.29, 68.7/44.5/31.8/23.2 (BP=0.963, ratio=0.963, hyp_len=76162, ref_len=79064)
-
 Sample output:
 
-mean	BLEU = 34.69, 66.3/42.5/30.2/22.2 (BP=0.936, ratio=0.938, hyp_len=51678, ref_len=54649)
-median	BLEU = 33.99, 65.5/42.0/30.6/23.2 (BP=0.933, ratio=0.935, hyp_len=55947, ref_len=59823)
+43	similarity=0.97
+FILE-1	Ernesto tagged you in his photo: "with Rizal and the national photo bomber!"
+FILE-2	Ernesto tagged you in his photo: ‘With Rizal and the national photobomber!’
+====================================================================================================
+102	similarity=0.95
+FILE-1	"good morning, sir.
+FILE-2	“Good morning, sir.
+====================================================================================================
+2000 bitext pairs were read
+182 pairs (9.10%) were identical with threshold=0.90
 ```
 ```
-Usage:   vertical-statistics.py [-i INPUT] [-l] [-c COLUMN]
-                                [-m {mean,min,max,range,median,sum,std,var} [{mean,...,var} ...]]
-Example: cat file1 file2 file3 | python vertical-statistics.py -l -m mean median > output
+Usage:   bitext-identical-pairs.py [-h] -f FILE FILE [-o OUTPUT OUTPUT] [-t THRESHOLD] [-l] [-v]
+Example: python bitext-identical-pairs.py -f file1 file2 -o output1 output2 -t 0.9 -l -v
 Optional arguments:
-  -i INPUT, --input INPUT
-                        input file(s) (glob patterns are supported)
-  -m, --metrics {mean,min,max,range,median,sum,std,var} [{mean,min,max,range,median,sum,std,var} ...]
-                        statistic metrics (default: ['mean'])
-  -l, --label           print metrics labels (default: False)
-  -c COLUMN, --column COLUMN
-                        analyse a specified whitespace-split column (c-th) (default: None)
+  -f FILE FILE, --file FILE FILE
+                        input bitext files to be compared (default: None)
+  -o OUTPUT OUTPUT, --output OUTPUT OUTPUT
+                        output bitext files without identical pairs (default: None)
+  -t THRESHOLD, --threshold THRESHOLD
+                        similarity threshold to determine identity ([0,1]) (default: 0.9)
+  -l, --lowercase       compare lowercased sequences (default: False)
+  -v, --verbose         print identical pairs (default: False)
 ```

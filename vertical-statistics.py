@@ -16,7 +16,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-i', '--input', required=False, help='input file(s) (glob patterns are supported)')
     parser.add_argument('-m', '--metrics', required=False, nargs='+', default=["mean"], 
-                        choices=["mean", "min", "max", "range", "median", "sum", "std", "var"],
+                        choices=["mean", "min", "max", "range", "median", "sum", "std", "var", "sub"],
                         help='statistic metrics')
     parser.add_argument('-l', '--label', required=False, action="store_true", help='print metrics labels')
     parser.add_argument('-c', '--column', required=False, type=int, help='analyze a specified swhitespace-split column (c-th)')
@@ -57,6 +57,8 @@ if __name__ == "__main__":
             result_list = np.std(value_mat, 0)
         elif metrics == "var":
             result_list = np.var(value_mat, 0)
+        elif metrics == "sub":
+            result_list = np.subtract(value_mat[0], value_mat[1])
         output_str = template
         for i in range(len(decimals_str_list)):
             print_format = "%."+decimals_str_list[i]+"f"

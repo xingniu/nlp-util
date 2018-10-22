@@ -153,12 +153,12 @@ median	BLEU = 33.99, 65.5/42.0/30.6/23.2 (BP=0.933, ratio=0.935, hyp_len=55947, 
 ```
 ```
 Usage:   vertical-statistics.py [-i INPUT] [-l] [-c COLUMN]
-                                [-m {mean,min,max,range,median,sum,std,var} [{mean,...,var} ...]]
+                                [-m {mean,min,max,range,median,sum,std,var,sub} [{mean,...,sub} ...]]
 Example: cat file1 file2 file3 | python vertical-statistics.py -l -m mean median > output
 Optional arguments:
   -i INPUT, --input INPUT
                         input file(s) (glob patterns are supported)
-  -m, --metrics {mean,min,max,range,median,sum,std,var} [{mean,min,max,range,median,sum,std,var} ...]
+  -m, --metrics {mean,min,max,range,median,sum,std,var,sub} [{mean,min,max,range,median,sum,std,var,sub} ...]
                         statistic metrics (default: ['mean'])
   -l, --label           print metrics labels (default: False)
   -c COLUMN, --column COLUMN

@@ -183,8 +183,8 @@ Sample output:
 ====================================================================================================
 ```
 ```
-Usage:   sequence-diff.py -f FILE [FILE ...] [-c CONST [CONST ...]] [-d]
-Example: python sequence-diff.py -f file1 file2 -c file3 > output
+Usage:   sequence-diff.py -f FILE [FILE ...] [-c CONST [CONST ...]] [-d] [-v]
+Example: python sequence-diff.py -c source_file -f reference_file hypothesis_file
 Optional arguments:
   -f FILE [FILE ...], --file FILE [FILE ...]
                         input files of sequences to be compared
@@ -193,6 +193,7 @@ Optional arguments:
                         files of sequences not participating in comparison,
                         such as source sentences to be translated
   -d, --condense        condense the comparison of multiple sequences without showing diffs (default: False)
+  -v, --verbose         always print the base sequence (default: False)
 ```
 
 #### Bitext Identical Pairs

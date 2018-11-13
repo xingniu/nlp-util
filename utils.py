@@ -3,7 +3,6 @@
 import fileinput
 import glob
 import sys
-import numpy as np
 
 def error(message):
     print >> sys.stderr, message
@@ -21,6 +20,7 @@ def get_input(file_pattern, encoding="utf8"):
     return fileinput.input(file_list, openhook=fileinput.hook_encoded(encoding))
 
 def str2float(string):
+    import numpy as np
     try:
         value = float(string)
         if np.isnan(value):

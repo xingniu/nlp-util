@@ -1,17 +1,28 @@
 #!/usr/bin/env python -*- coding: utf-8 -*-
 
 import argparse
+import string
+import re
+import utils
 from difflib import SequenceMatcher
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-f', '--file', required=True, nargs=2, help='input bitext files to be compared')
     parser.add_argument('-o', '--output', required=False, nargs=2, help='output bitext files without identical pairs')
+    parser.add_argument('-i', '--inclusion', required=False, action="store_true", help='treat inclusion as identity')
     parser.add_argument('-t', '--threshold', required=False, type=float, default=0.9,
                         help='similarity threshold to determine identity ([0,1])')
+    parser.add_argument('-c', '--character', required=False, action="store_true", help='calculate character-level similarity')
+    parser.add_argument('-p', '--punctuation', required=False, action="store_true", help='do not compare punctuations')
     parser.add_argument('-l', '--lowercase', required=False, action="store_true", help='compare lowercased sequences')
     parser.add_argument('-v', '--verbose', required=False, action="store_true", help='print identical pairs')
     args = parser.parse_args()
+
+    python3 = utils.isPython3()
+    if python3:
+        punctuations = str.maketrans('', '', string.punctuation)
+    whitespaces = re.compile(r"\s+")
 
     if args.output:
         output0 = open(args.output[0], 'w')
@@ -24,11 +35,26 @@ if __name__ == "__main__":
         counter += 1
         str0 = lines[0].lower().strip() if args.lowercase else lines[0].strip()
         str1 = lines[1].lower().strip() if args.lowercase else lines[1].strip()
-        ratio = SequenceMatcher(None, str0, str1).ratio()
-        if ratio >= args.threshold:
+        if args.punctuation:
+            if python3:
+                str0 = str0.translate(punctuations)
+                str1 = str1.translate(punctuations)
+            else:
+                str0 = str0.translate(None, string.punctuation)
+                str1 = str1.translate(None, string.punctuation)
+        inclusion = str0 in str1 or str1 in str0 if args.inclusion else False
+        if not inclusion:
+            if args.character:
+                ratio = SequenceMatcher(None, whitespaces.sub("", str0), whitespaces.sub("", str1)).ratio()
+            else:
+                ratio = SequenceMatcher(None, str0.split(), str1.split()).ratio()
+        if inclusion or ratio >= args.threshold:
             identical += 1
             if args.verbose:
-                print("%d\tsimilarity=%.2f" % (counter, ratio))
+                if inclusion:
+                    print("%d\tinclusion=True" % counter)
+                else:
+                    print("%d\tsimilarity=%.2f" % (counter, ratio))
                 print("FILE-1\t%s" % lines[0].strip())
                 print("FILE-2\t%s" % lines[1].strip())
                 print("="*100)
@@ -37,7 +63,10 @@ if __name__ == "__main__":
             output1.write(lines[1].strip()+"\n")
     percentile = identical*100.0/counter
     print("%d bitext pairs were read" % counter)
-    print("%d pairs (%.2f%%) were identical with threshold=%.2f" % (identical, percentile, args.threshold))
+    if args.inclusion:
+        print("%d pairs (%.2f%%) were identical with inclusion and threshold=%.2f" % (identical, percentile, args.threshold))
+    else:
+        print("%d pairs (%.2f%%) were identical with threshold=%.2f" % (identical, percentile, args.threshold))
 
     if args.output:
         output0.close()

@@ -200,27 +200,31 @@ Optional arguments:
 ```
 Sample output:
 
-43	similarity=0.97
-FILE-1	Ernesto tagged you in his photo: "with Rizal and the national photo bomber!"
-FILE-2	Ernesto tagged you in his photo: ‘With Rizal and the national photobomber!’
+19056	inclusion=True
+FILE-1	We' re on our way , way , way , we' re on our way
+FILE-2	♪ We 're on our way , way , way ♪ ♪ We 're on our way , way , way , we 're on our way ... ♪
 ====================================================================================================
-102	similarity=0.95
-FILE-1	"good morning, sir.
-FILE-2	“Good morning, sir.
+21584	similarity=0.68
+FILE-1	We want to make a place we can learn to love , anywhere we can be proud of .
+FILE-2	♪ We wanna make a place where we can learn to love ♪ ♪ Build a world that we can be proud of ♪
 ====================================================================================================
-2000 bitext pairs were read
-182 pairs (9.10%) were identical with threshold=0.90
+27541623 bitext pairs were read
+770532 pairs (2.80%) were identical with inclusion and threshold=0.50
 ```
 ```
-Usage:   bitext-identical-pairs.py [-h] -f FILE FILE [-o OUTPUT OUTPUT] [-t THRESHOLD] [-l] [-v]
-Example: python bitext-identical-pairs.py -f file1 file2 -o output1 output2 -t 0.9 -l -v
+Usage:   bitext-identical-pairs.py [-h] -f FILE FILE [-o OUTPUT OUTPUT] [-i] [-t THRESHOLD] [-c] [-p] [-l] [-v]
+Example: python bitext-identical-pairs.py -f file1 file2 -o output1 output2 -i -t 0.5 -p -l -v
 Optional arguments:
+  -h, --help            show this help message and exit
   -f FILE FILE, --file FILE FILE
                         input bitext files to be compared (default: None)
   -o OUTPUT OUTPUT, --output OUTPUT OUTPUT
                         output bitext files without identical pairs (default: None)
+  -i, --inclusion       treat inclusion as identity (default: False)
   -t THRESHOLD, --threshold THRESHOLD
                         similarity threshold to determine identity ([0,1]) (default: 0.9)
+  -c, --character       calculate character-level similarity (default: False)
+  -p, --punctuation     do not compare punctuations (default: False)
   -l, --lowercase       compare lowercased sequences (default: False)
   -v, --verbose         print identical pairs (default: False)
 ```

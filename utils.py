@@ -31,3 +31,6 @@ def str2float(string):
     except ValueError:
         warning("ignored invalid literal: %s" % string)
         return None
+
+def isPython3():
+    return sys.version_info[0] == 3

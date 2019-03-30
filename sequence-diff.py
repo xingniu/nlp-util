@@ -28,7 +28,7 @@ if __name__ == "__main__":
         if len(seq_set) > 1 or args.verbose:
             for i in range(ref_index):
                 print("%d CONST-%d\t%s" % (counter, i+1, lines[i].strip()))
-                print("."*100)
+            print("."*100)
         if len(seq_set) == 1 and args.verbose or len(seq_set) > 1 and args.condense:
             print("%d SEQUE-B\t%s" % (counter, lines[ref_index].strip()))
         if len(seq_set) > 1:

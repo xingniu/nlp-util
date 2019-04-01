@@ -1,75 +1,27 @@
 # nlp-util
 Random utilities for NLP. Many of them were designed for MT (Machine Translation) experiments, but they can still be used for general purposes.
 
+## Statistics and Analysis
+
+| Name | Script | Description |
+| :--- | :----- | :---------- |
+| [Word Count](#word-count) | word-count.py | Count (OOV/IV) words |
+| [Probability Histogram](#probability-histogram) | probability-histogram.py | Generate a probability histogram |
+| [Vertical Statistics](#vertical-statistics) | vertical-statistics.py | Calculate statistics vertically for values (with fixed patterns) |
+| [Sequence Diff](#sequence-diff) | sequence-diff.py | Compare sequences and display diffs |
+
 ## Corpus Preprocessing
+
+| Name | Script | Description |
+| :--- | :----- | :---------- |
+| [Bitext Identical Pairs](#bitext-identical-pairs) | bitext-identical-pairs.py | Detect (and remove) identical pairs from bitext |
+| [Bitext Cleaning](#bitext-cleaning) | bitext-cleaning.py | Clean bitext by heuristic rules |
 
 | Corpus Name | Script | Description |
 | :---------- | :----- | :---------- |
 | [ICWSM 2009 Spinn3r Blog Dataset](#icwsm-2009-spinn3r-blog-dataset) | Spinn3r-2009-extract.py | Extract select (and clean) text |
 | [MSLT (Microsoft Speech Language Translation)](#mslt-microsoft-speech-language-translation) | MSLT-repack.sh, MSLT-extract.py | Extract monolingual/parallel data |
 | [PPDB (Paraphrase Database)](#ppdb-paraphrase-database) | PPDB-extract.py | Extract select paraphrases |
-
-## Statistics and Analysis
-
-| Name | Script | Description |
-| :--- |:----- | :---------- |
-| [Word Count](#word-count) | word-count.py | Count (OOV/IV) words |
-| [Probability Histogram](#probability-histogram) | probability-histogram.py | Generate a probability histogram |
-| [Vertical Statistics](#vertical-statistics) | vertical-statistics.py | Calculate statistics vertically for values (with fixed patterns) |
-| [Sequence Diff](#sequence-diff) | sequence-diff.py | Compare sequences and display diffs |
-| [Bitext Identical Pairs](#bitext-identical-pairs) | bitext-identical-pairs.py | Detect (and remove) identical pairs from bitext |
-
-#### [ICWSM 2009 Spinn3r Blog Dataset](http://www.icwsm.org/data/)
-```
-Usage:    Spinn3r-2009-extract.py -f FILE [FILE ...] [-l LANGUAGES [LANGUAGES ...]]
-                                  -e ELEMENTS [ELEMENTS ...] [-u] [-c]
-Examples: python Spinn3r-2009-extract.py -f BLOGS-tiergroup-1.tar.gz -e title description -l en -u -c > output.en
-Optional arguments:
-  -f FILE [FILE ...], --file FILE [FILE ...]
-                        Spinn3r tar.gz file(s)
-  -l LANGUAGES [LANGUAGES ...], --languages LANGUAGES [LANGUAGES ...]
-                        language(s) to be extracted (e.g. en)
-  -e ELEMENTS [ELEMENTS ...], --elements ELEMENTS [ELEMENTS ...]
-                        element(s) to be extracted (e.g. title, description)
-  -u, --unescape        unescape text (e.g. "&amp;"->"&") (default: False)
-  -c, --clean           clean text (drop <*>/URLs, condense spaces) (default: False)
-```
-
-#### [MSLT (Microsoft Speech Language Translation)](https://github.com/MicrosoftTranslator/MSLT-Corpus)
-1. Repack MSLT text (Python has an issue in handling original zip file).
-```
-bash MSLT-repack.sh /absolute/path/to/MSLT_Corpus.zip
-```
-2. Extract parallel or monolingual data from MSLT_Corpus.tgz
-```
-Usage:    MSLT-extract.py -f FILE -s SOURCE [-t TARGET] [-c CATEGORY] [-o OUTPUT]
-Examples: python MSLT-extract.py -f MSLT_Corpus.tgz -s fr -t en -c dev -o MSLT.fr-en
-          python MSLT-extract.py -f MSLT_Corpus.tgz -s fr > MSLT.fr
-Optional arguments:
-  -f FILE, --file FILE  input repacked tgz file
-  -s SOURCE, --source SOURCE
-                        source language (e.g. fr)
-  -t TARGET, --target TARGET
-                        target language (e.g. en)
-  -c CATEGORY, --category CATEGORY
-                        dev or test? (default: dev)
-  -o OUTPUT, --output OUTPUT
-                        output file (used for parallel data)
-```
-
-#### [PPDB (Paraphrase Database)](http://paraphrase.org/#/download)
-```
-Usage:    PPDB-extract.py [-f FILE] [-a FEATURE] [-t THRESHOLD] [-e ENTAILMENT]
-Examples: gzip -dc ppdb-2.0-s-lexical.gz | python PPDB-extract.py -e Equivalence > output
-Optional arguments:
-  -f FILE, --file FILE  unzipped input file(s) (glob patterns are supported)
-  -a FEATURE, --feature FEATURE
-                        the feature used for filtering
-  -t THRESHOLD, --threshold THRESHOLD
-                        the threshold used for filtering (feature value >= threshold are kept)
-  -e ENTAILMENT, --entailment ENTAILMENT
-                        the entailment type(s) used for filtering (regular expression)
-```
 
 #### Word Count
 It can also be used for counting/getting OOV (out-of-vocabulary) or IV (in-vocabulary) words.
@@ -227,4 +179,88 @@ Optional arguments:
   -p, --punctuation     do not compare punctuations (default: False)
   -l, --lowercase       compare lowercased sequences (default: False)
   -v, --verbose         print identical pairs (default: False)
+```
+
+#### Bitext Cleaning
+```
+Sample output:
+
+3       length-ratio=2.85 
+FILE-1  Саvеndіѕh , mais la totalité s' élève à ... 2,343 livres et 16 cts .
+FILE-2  2,343 pounds and 16 pence .
+====================================================================================================
+8716    length-ratio=2.29 
+FILE-1  Y avait deux bagnoles de flics .
+FILE-2  Listen , you 'll never believe me . There was two cop cars , okay ?
+====================================================================================================
+27541623 bitext pairs were read
+2944687 pairs (10.69%) were filtered out
+2944687 pairs (10.69%) were imbalanced with length-ratio >= 2.00
+233423 pairs (0.85%) were capitalized
+```
+```
+Usage:   bitext-cleaning.py [-f FILE [FILE ...]] [-o OUTPUT [OUTPUT ...]] [-r RATIO] [-c] [-v]
+Example: python bitext-cleaning.py -f file1 file2 -o output1 output2 -r 2.0 -c -v
+Optional arguments:
+  -f FILE [FILE ...], --file FILE [FILE ...]
+                        input bitext file(s) (default: None)
+  -o OUTPUT [OUTPUT ...], --output OUTPUT [OUTPUT ...]
+                        output bitext file(s) (default: None)
+  -r RATIO, --ratio RATIO
+                        filter out pairs which length ratios are no less than a threshold (default: None)
+  -c, --capitalize      capitalize strings if all characters are uppercase (default: False)
+  -v, --verbose         print identified pairs (default: False)
+
+```
+
+#### [ICWSM 2009 Spinn3r Blog Dataset](http://www.icwsm.org/data/)
+```
+Usage:    Spinn3r-2009-extract.py -f FILE [FILE ...] [-l LANGUAGES [LANGUAGES ...]]
+                                  -e ELEMENTS [ELEMENTS ...] [-u] [-c]
+Examples: python Spinn3r-2009-extract.py -f BLOGS-tiergroup-1.tar.gz -e title description -l en -u -c > output.en
+Optional arguments:
+  -f FILE [FILE ...], --file FILE [FILE ...]
+                        Spinn3r tar.gz file(s)
+  -l LANGUAGES [LANGUAGES ...], --languages LANGUAGES [LANGUAGES ...]
+                        language(s) to be extracted (e.g. en)
+  -e ELEMENTS [ELEMENTS ...], --elements ELEMENTS [ELEMENTS ...]
+                        element(s) to be extracted (e.g. title, description)
+  -u, --unescape        unescape text (e.g. "&amp;"->"&") (default: False)
+  -c, --clean           clean text (drop <*>/URLs, condense spaces) (default: False)
+```
+
+#### [MSLT (Microsoft Speech Language Translation)](https://github.com/MicrosoftTranslator/MSLT-Corpus)
+1. Repack MSLT text (Python has an issue in handling original zip file).
+```
+bash MSLT-repack.sh /absolute/path/to/MSLT_Corpus.zip
+```
+2. Extract parallel or monolingual data from MSLT_Corpus.tgz
+```
+Usage:    MSLT-extract.py -f FILE -s SOURCE [-t TARGET] [-c CATEGORY] [-o OUTPUT]
+Examples: python MSLT-extract.py -f MSLT_Corpus.tgz -s fr -t en -c dev -o MSLT.fr-en
+          python MSLT-extract.py -f MSLT_Corpus.tgz -s fr > MSLT.fr
+Optional arguments:
+  -f FILE, --file FILE  input repacked tgz file
+  -s SOURCE, --source SOURCE
+                        source language (e.g. fr)
+  -t TARGET, --target TARGET
+                        target language (e.g. en)
+  -c CATEGORY, --category CATEGORY
+                        dev or test? (default: dev)
+  -o OUTPUT, --output OUTPUT
+                        output file (used for parallel data)
+```
+
+#### [PPDB (Paraphrase Database)](http://paraphrase.org/#/download)
+```
+Usage:    PPDB-extract.py [-f FILE] [-a FEATURE] [-t THRESHOLD] [-e ENTAILMENT]
+Examples: gzip -dc ppdb-2.0-s-lexical.gz | python PPDB-extract.py -e Equivalence > output
+Optional arguments:
+  -f FILE, --file FILE  unzipped input file(s) (glob patterns are supported)
+  -a FEATURE, --feature FEATURE
+                        the feature used for filtering
+  -t THRESHOLD, --threshold THRESHOLD
+                        the threshold used for filtering (feature value >= threshold are kept)
+  -e ENTAILMENT, --entailment ENTAILMENT
+                        the entailment type(s) used for filtering (regular expression)
 ```

@@ -21,7 +21,7 @@ Random utilities for NLP. Many of them were designed for MT (Machine Translation
 
 #### [ICWSM 2009 Spinn3r Blog Dataset](http://www.icwsm.org/data/)
 ```
-Usage:    Spinn3r-2009-extract.py [-h] -f FILE [FILE ...] [-l LANGUAGES [LANGUAGES ...]]
+Usage:    Spinn3r-2009-extract.py -f FILE [FILE ...] [-l LANGUAGES [LANGUAGES ...]]
                                   -e ELEMENTS [ELEMENTS ...] [-u] [-c]
 Examples: python Spinn3r-2009-extract.py -f BLOGS-tiergroup-1.tar.gz -e title description -l en -u -c > output.en
 Optional arguments:
@@ -212,14 +212,14 @@ FILE-2	♪ We wanna make a place where we can learn to love ♪ ♪ Build a worl
 770532 pairs (2.80%) were identical with inclusion and threshold=0.50
 ```
 ```
-Usage:   bitext-identical-pairs.py [-h] -f FILE FILE [-o OUTPUT OUTPUT] [-i] [-t THRESHOLD] [-c] [-p] [-l] [-v]
+Usage:   bitext-identical-pairs.py [-f FILE [FILE ...]] [-o OUTPUT [OUTPUT ...]] [-i]
+                                   [-t THRESHOLD] [-c] [-p] [-l] [-v]
 Example: python bitext-identical-pairs.py -f file1 file2 -o output1 output2 -i -t 0.5 -p -l -v
 Optional arguments:
-  -h, --help            show this help message and exit
-  -f FILE FILE, --file FILE FILE
-                        input bitext files to be compared (default: None)
-  -o OUTPUT OUTPUT, --output OUTPUT OUTPUT
-                        output bitext files without identical pairs (default: None)
+  -f FILE [FILE ...], --file FILE [FILE ...]
+                        input bitext file(s) to be compared (default: None)
+  -o OUTPUT [OUTPUT ...], --output OUTPUT [OUTPUT ...]
+                        output bitext file(s) without identical pairs (default: None)
   -i, --inclusion       treat inclusion as identity (default: False)
   -t THRESHOLD, --threshold THRESHOLD
                         similarity threshold to determine identity ([0,1]) (default: 0.9)

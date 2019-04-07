@@ -32,10 +32,8 @@ if __name__ == "__main__":
             output1 = open(args.output[1], 'w')
 
     files = [open(f) for f in args.file] if args.file else [utils.get_input(args.file)]
-    counter = 0
     identical = 0
-    for lines in zip(*files):
-        counter += 1
+    for counter, lines in enumerate(zip(*files), start=1):
         if len(files) == 1:
             lines = lines[0].split("\t")
         str0 = lines[0].lower().strip() if args.lowercase else lines[0].strip()

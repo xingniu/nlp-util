@@ -10,9 +10,9 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--file', required=False, nargs='+', help='input bitext file(s)')
     parser.add_argument('-o', '--output', required=False, nargs='+', help='output bitext file(s)')
     parser.add_argument('-r', '--ratio', required=False, type=float, default=None,
-                        help='filter out pairs which length ratios are no less than a threshold')
-    parser.add_argument('-c', '--capitalize', required=False, action="store_true",
-                        help='capitalize strings if all characters are uppercase')
+                        help='remove pairs which length ratios are no less than a threshold')
+    parser.add_argument('-u', '--uppercase', required=False, action="store_true",
+                        help='remove pairs if both source and target are uppercased, otherwise capitalize uppercase strings')
     parser.add_argument('-v', '--verbose', required=False, action="store_true", help='print identified pairs')
     args = parser.parse_args()
 
@@ -22,12 +22,11 @@ if __name__ == "__main__":
             output1 = open(args.output[1], 'w')
 
     files = [open(f) for f in args.file] if args.file else [utils.get_input(args.file)]
-    counter = 0
-    filtered_counter = imbalance = capitalized = 0
-    for lines in zip(*files):
+    filtered_counter = imbalance = uppercase = 0
+    capitalized = 0
+    for counter, lines in enumerate(zip(*files), start=1):
         filtered = False
         info = ""
-        counter += 1
         if len(files) == 1:
             lines = lines[0].split("\t")
         str0 = lines[0].strip()
@@ -45,15 +44,19 @@ if __name__ == "__main__":
                 filtered = True
                 info += "length-ratio=%.2f " % max_ratio
                 imbalance += 1
-        if args.capitalize:
+        if args.uppercase:
             str0_isupper = str0.isupper()
             str1_isupper = str1.isupper()
             if str0_isupper and not str1_isupper:
                 str0 = str0.capitalize()
                 capitalized += 1
-            if not str0_isupper and str1_isupper:
+            elif not str0_isupper and str1_isupper:
                 str1 = str1.capitalize()
                 capitalized += 1
+            elif str0_isupper and str1_isupper:
+                filtered = True
+                info += "uppercase=True "
+                uppercase += 1
 
         if filtered:
             filtered_counter += 1
@@ -76,11 +79,13 @@ if __name__ == "__main__":
     print("%d pairs (%.2f%%) were filtered out" % (filtered_counter, percentile), file=sys.stderr)
     if args.ratio is not None:
         percentile = imbalance*100.0/counter
-        print("%d pairs (%.2f%%) were imbalanced with length-ratio >= %.2f"
+        print("- %d pairs (%.2f%%) were imbalanced with length-ratio >= %.2f"
               % (imbalance, percentile, args.ratio), file=sys.stderr)
-    if args.capitalize:
+    if args.uppercase:
+        percentile = uppercase*100.0/counter
+        print("- %d pairs (%.2f%%) were uppercased (both source and target)" % (uppercase, percentile), file=sys.stderr)
         percentile = capitalized*100.0/counter
-        print("%d pairs (%.2f%%) were capitalized" % (capitalized, percentile), file=sys.stderr)
+        print("%d pairs (%.2f%%) have been capitalized" % (capitalized, percentile), file=sys.stderr)
 
     if args.output:
         output0.close()

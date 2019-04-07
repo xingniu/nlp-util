@@ -189,26 +189,28 @@ Sample output:
 FILE-1  Саvеndіѕh , mais la totalité s' élève à ... 2,343 livres et 16 cts .
 FILE-2  2,343 pounds and 16 pence .
 ====================================================================================================
-8716    length-ratio=2.29 
-FILE-1  Y avait deux bagnoles de flics .
-FILE-2  Listen , you 'll never believe me . There was two cop cars , okay ?
+15      uppercase=True
+FILE-1  ЅΑΝ FRΑΝСΙЅСΟ , 1973
+FILE-2  SAN FRANCISCO , 1973
 ====================================================================================================
 27541623 bitext pairs were read
-2944687 pairs (10.69%) were filtered out
-2944687 pairs (10.69%) were imbalanced with length-ratio >= 2.00
-233423 pairs (0.85%) were capitalized
+2960667 pairs (10.75%) were filtered out
+- 2944687 pairs (10.69%) were imbalanced with length-ratio >= 2.00
+- 19386 pairs (0.07%) were uppercased (both source and target)
+233423 pairs (0.85%) have been capitalized
 ```
 ```
-Usage:   bitext-cleaning.py [-f FILE [FILE ...]] [-o OUTPUT [OUTPUT ...]] [-r RATIO] [-c] [-v]
-Example: python bitext-cleaning.py -f file1 file2 -o output1 output2 -r 2.0 -c -v
+Usage:   bitext-cleaning.py [-f FILE [FILE ...]] [-o OUTPUT [OUTPUT ...]] [-r RATIO] [-u] [-v]
+Example: python bitext-cleaning.py -f file1 file2 -o output1 output2 -r 2.0 -u -v
 Optional arguments:
   -f FILE [FILE ...], --file FILE [FILE ...]
                         input bitext file(s) (default: None)
   -o OUTPUT [OUTPUT ...], --output OUTPUT [OUTPUT ...]
                         output bitext file(s) (default: None)
   -r RATIO, --ratio RATIO
-                        filter out pairs which length ratios are no less than a threshold (default: None)
-  -c, --capitalize      capitalize strings if all characters are uppercase (default: False)
+                        remove pairs which length ratios are no less than a threshold (default: None)
+  -u, --uppercase       remove pairs if both source and target are uppercased,
+                        otherwise capitalize uppercase strings (default: False)
   -v, --verbose         print identified pairs (default: False)
 
 ```

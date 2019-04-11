@@ -11,10 +11,14 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output', required=False, nargs='+', help='output bitext file(s)')
     parser.add_argument('-r', '--ratio', required=False, type=float, default=None,
                         help='remove pairs which length ratios are no less than a threshold')
+    parser.add_argument('-i', '--incomplete', required=False, action="store_true",
+                        help='remove pairs if they contain incomplete sentences, i.e. no .!?" at the end')
     parser.add_argument('-u', '--uppercase', required=False, action="store_true",
                         help='remove pairs if both source and target are uppercased, otherwise capitalize uppercase strings')
     parser.add_argument('-v', '--verbose', required=False, action="store_true", help='print identified pairs')
     args = parser.parse_args()
+
+    eos_punctuations = ".!?\""
 
     if args.output:
         output0 = open(args.output[0], 'w')
@@ -22,7 +26,7 @@ if __name__ == "__main__":
             output1 = open(args.output[1], 'w')
 
     files = [open(f) for f in args.file] if args.file else [utils.get_input(args.file)]
-    filtered_counter = imbalance = uppercase = 0
+    filtered_counter = imbalance = incomplete = uppercase = 0
     capitalized = 0
     for counter, lines in enumerate(zip(*files), start=1):
         filtered = False
@@ -44,6 +48,11 @@ if __name__ == "__main__":
                 filtered = True
                 info += "length-ratio=%.2f " % max_ratio
                 imbalance += 1
+        if args.incomplete:
+            if len(str0) == 0 or len(str1) == 0 or str0[-1] not in eos_punctuations or str1[-1] not in eos_punctuations:
+                filtered = True
+                info += "incomplete=True "
+                incomplete += 1
         if args.uppercase:
             str0_isupper = str0.isupper()
             str1_isupper = str1.isupper()
@@ -81,6 +90,9 @@ if __name__ == "__main__":
         percentile = imbalance*100.0/counter
         print("- %d pairs (%.2f%%) were imbalanced with length-ratio >= %.2f"
               % (imbalance, percentile, args.ratio), file=sys.stderr)
+    if args.incomplete:
+        percentile = incomplete*100.0/counter
+        print("- %d pairs (%.2f%%) contain incomplete sentences." % (incomplete, percentile), file=sys.stderr)
     if args.uppercase:
         percentile = uppercase*100.0/counter
         print("- %d pairs (%.2f%%) were uppercased (both source and target)" % (uppercase, percentile), file=sys.stderr)

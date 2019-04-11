@@ -145,7 +145,7 @@ Optional arguments:
                         files of sequences not participating in comparison,
                         such as source sentences to be translated
   -d, --condense        condense the comparison of multiple sequences without showing diffs (default: False)
-  -v, --verbose         always print the base sequence (default: False)
+  -v, --verbose         print all sequences in the condense mode (default: False)
 ```
 
 #### Bitext Identical Pairs
@@ -165,7 +165,7 @@ FILE-2	♪ We wanna make a place where we can learn to love ♪ ♪ Build a worl
 ```
 ```
 Usage:   bitext-identical-pairs.py [-f FILE [FILE ...]] [-o OUTPUT [OUTPUT ...]] [-i]
-                                   [-t THRESHOLD] [-c] [-p] [-l] [-v]
+                                   [-t THRESHOLD] [-c] [-p] [-l] [-u] [-v]
 Example: python bitext-identical-pairs.py -f file1 file2 -o output1 output2 -i -t 0.5 -p -l -v
 Optional arguments:
   -f FILE [FILE ...], --file FILE [FILE ...]
@@ -178,6 +178,7 @@ Optional arguments:
   -c, --character       calculate character-level similarity (default: False)
   -p, --punctuation     do not compare punctuations (default: False)
   -l, --lowercase       compare lowercased sequences (default: False)
+  -u, --capitalized     compare capitalized sequences (default: False)
   -v, --verbose         print identical pairs (default: False)
 ```
 
@@ -200,7 +201,7 @@ FILE-2  SAN FRANCISCO , 1973
 233423 pairs (0.85%) have been capitalized
 ```
 ```
-Usage:   bitext-cleaning.py [-f FILE [FILE ...]] [-o OUTPUT [OUTPUT ...]] [-r RATIO] [-u] [-v]
+Usage:   bitext-cleaning.py [-f FILE [FILE ...]] [-o OUTPUT [OUTPUT ...]] [-r RATIO] [-i] [-u] [-v]
 Example: python bitext-cleaning.py -f file1 file2 -o output1 output2 -r 2.0 -u -v
 Optional arguments:
   -f FILE [FILE ...], --file FILE [FILE ...]
@@ -209,6 +210,8 @@ Optional arguments:
                         output bitext file(s) (default: None)
   -r RATIO, --ratio RATIO
                         remove pairs which length ratios are no less than a threshold (default: None)
+  -i, --incomplete      remove pairs if they contain incomplete sentences,
+                        i.e. no .!?" at the end (default: False)
   -u, --uppercase       remove pairs if both source and target are uppercased,
                         otherwise capitalize uppercase strings (default: False)
   -v, --verbose         print identified pairs (default: False)

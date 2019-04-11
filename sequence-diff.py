@@ -13,7 +13,8 @@ if __name__ == "__main__":
                         help='files of sequences not participating in comparison, such as source sentences to be translated')
     parser.add_argument('-d', '--condense', required=False, action="store_true",
                         help='condense the comparison of multiple sequences without showing diffs')
-    parser.add_argument('-v', '--verbose', required=False, action="store_true", help='always print the base sequence')
+    parser.add_argument('-v', '--verbose', required=False, action="store_true",
+                        help='print all sequences in the condense mode')
     args = parser.parse_args()
 
     if len(args.file) < 2:
@@ -29,24 +30,23 @@ if __name__ == "__main__":
             for i in range(ref_index):
                 print("%d CONST-%d\t%s" % (counter, i+1, lines[i].strip()))
             print("."*100)
-        if len(seq_set) == 1 and args.verbose or len(seq_set) > 1 and args.condense:
+        if args.verbose or len(seq_set) > 1 and args.condense:
             print("%d SEQUE-B\t%s" % (counter, lines[ref_index].strip()))
         if len(seq_set) > 1:
             found_first_diff = False
             for i in range(ref_index+1, len(files)):
-                if lines[ref_index] != lines[i]:
-                    if args.condense:
-                        print("%d SEQUE-%d\t%s" % (counter, i-ref_index, lines[i].strip()))
-                    else:
-                        if found_first_diff:
-                            print("."*100)
-                        for dl in ndiff([lines[ref_index]], [lines[i]]):
-                            if dl[0] == '-':
-                                print("%d SEQUE-B\t%s" % (counter, dl.strip()[2:]))
-                            elif dl[0] == '+':
-                                print("%d SEQUE-%d\t%s" % (counter, i-ref_index, dl.strip()[2:]))
-                            else:
-                                print("           \t%s" % (dl.strip()[2:]))
-                        found_first_diff = True
+                if args.verbose or lines[ref_index] != lines[i] and args.condense:
+                    print("%d SEQUE-%d\t%s" % (counter, i-ref_index, lines[i].strip()))
+                if lines[ref_index] != lines[i] and not args.verbose and not args.condense:
+                    if found_first_diff:
+                        print("."*100)
+                    for dl in ndiff([lines[ref_index]], [lines[i]]):
+                        if dl[0] == '-':
+                            print("%d SEQUE-B\t%s" % (counter, dl.strip()[2:]))
+                        elif dl[0] == '+':
+                            print("%d SEQUE-%d\t%s" % (counter, i-ref_index, dl.strip()[2:]))
+                        else:
+                            print("           \t%s" % (dl.strip()[2:]))
+                    found_first_diff = True
         if len(seq_set) > 1 or args.verbose:
             print("="*100)

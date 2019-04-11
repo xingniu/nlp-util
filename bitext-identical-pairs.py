@@ -8,6 +8,11 @@ import re
 import utils
 from difflib import SequenceMatcher
 
+def capitalize(string):
+    if len(string) > 0:
+        return string[0].capitalize()+string[1:]
+    return string
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-f', '--file', required=False, nargs='+', help='input bitext file(s) to be compared')
@@ -18,6 +23,7 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--character', required=False, action="store_true", help='calculate character-level similarity')
     parser.add_argument('-p', '--punctuation', required=False, action="store_true", help='do not compare punctuations')
     parser.add_argument('-l', '--lowercase', required=False, action="store_true", help='compare lowercased sequences')
+    parser.add_argument('-u', '--capitalized', required=False, action="store_true", help='compare capitalized sequences')
     parser.add_argument('-v', '--verbose', required=False, action="store_true", help='print identical pairs')
     args = parser.parse_args()
 
@@ -36,8 +42,15 @@ if __name__ == "__main__":
     for counter, lines in enumerate(zip(*files), start=1):
         if len(files) == 1:
             lines = lines[0].split("\t")
-        str0 = lines[0].lower().strip() if args.lowercase else lines[0].strip()
-        str1 = lines[1].lower().strip() if args.lowercase else lines[1].strip()
+        if args.lowercase:
+            str0 = lines[0].strip().lower()
+            str1 = lines[1].strip().lower()
+        elif args.capitalized:
+            str0 = capitalize(lines[0].strip())
+            str1 = capitalize(lines[1].strip())
+        else:
+            str0 = lines[0].strip()
+            str1 = lines[1].strip()
         if args.punctuation:
             if python3:
                 str0 = str0.translate(punctuations)

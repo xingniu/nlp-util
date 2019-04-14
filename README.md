@@ -135,15 +135,20 @@ Sample output:
 ====================================================================================================
 ```
 ```
-Usage:   sequence-diff.py -f FILE [FILE ...] [-c CONST [CONST ...]] [-d] [-v]
+Usage:   sequence-diff.py -f FILE [FILE ...] [-ft FILE_TAG [FILE_TAG ...]]
+                          [-c CONST [CONST ...]] [-ct CONST_TAG [CONST_TAG ...]] [-d] [-v]
 Example: python sequence-diff.py -c source_file -f reference_file hypothesis_file
 Optional arguments:
   -f FILE [FILE ...], --file FILE [FILE ...]
-                        input files of sequences to be compared
-                        (the first file is the base to be compared with, such as reference translations)
+                        input files of sequences to be compared (the first file is the base to be compared with,
+						such as reference translations) (default: None)
   -c CONST [CONST ...], --const CONST [CONST ...]
-                        files of sequences not participating in comparison,
-                        such as source sentences to be translated
+                        files of sequences not participating in the comparison,
+						such as source sentences to be translated (default: [])
+  -ft FILE_TAG [FILE_TAG ...], --file-tag FILE_TAG [FILE_TAG ...]
+                        tags of input files (default: None)
+  -ct CONST_TAG [CONST_TAG ...], --const-tag CONST_TAG [CONST_TAG ...]
+                        tags of const files (default: None)
   -d, --condense        condense the comparison of multiple sequences without showing diffs (default: False)
   -v, --verbose         print all sequences in the condense mode (default: False)
 ```

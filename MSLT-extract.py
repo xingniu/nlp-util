@@ -5,7 +5,7 @@ import tarfile
 import re
 
 def extract_text(filein):
-    return filein.read().decode("utf-16").encode("utf-8").replace("\r","")
+    return filein.read().decode("utf-16").replace("\r","").encode("utf-8")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -37,13 +37,13 @@ if __name__ == "__main__":
         
         output_src = open(args.output+"."+args.source, "wb")
         output_tgt = open(args.output+"."+args.target, "wb")
-        for item in parallel_data.iteritems():
+        for item in parallel_data.items():
             assert len(item[1]) == 2
-            if item[1]["src"].strip() != "" and item[1]["tgt"].strip() != "":
+            if len(item[1]["src"].strip()) > 0 and len(item[1]["tgt"].strip()) > 0:
                 output_src.write(item[1]["src"])
                 output_tgt.write(item[1]["tgt"])
         output_src.close()
         output_tgt.close()
     else:
         for value in parallel_data.itervalues():
-            print value["src"].strip()
+            print(value["src"].strip())

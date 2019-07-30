@@ -33,4 +33,4 @@ if __name__ == "__main__":
                 additional_info += "\t"+match.group(0)
             else:
                 continue
-        print "%s\t%s%s" % (segs[1].encode('utf8'),segs[2].encode('utf8'),additional_info)
+        print("%s\t%s%s" % (segs[1].encode('utf8'),segs[2].encode('utf8'),additional_info))

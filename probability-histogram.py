@@ -14,7 +14,7 @@ if __name__ == "__main__":
     parser.add_argument('-b', '--bins', required=False, type=int, default=10, help='the number of bins')
     parser.add_argument('-p', '--plot', required=False, action="store_true", help='plot the histogram')
     args = parser.parse_args()
-    
+
     scores = []
     for line in utils.get_input(args.input):
         score = utils.str2float(line.split()[args.column])
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     magnitude = np.max(np.abs(scores))
     norm_lower = -1
     norm_upper = 1
-    
+
     if args.lower is not None and args.upper is not None:
         if args.normalize:
             lower = args.lower * magnitude
@@ -35,12 +35,12 @@ if __name__ == "__main__":
         else:
             lower = args.lower
             upper = args.upper
-    
+
     if args.normalize:
         bin_edges = np.linspace(norm_lower, norm_upper, args.bins+1, endpoint=True)
     else:
         bin_edges = np.linspace(lower, upper, args.bins+1, endpoint=True)
-        
+
     interval = (upper-lower)*1.0/args.bins
     if interval >= 2:
         decimal = str(0)
@@ -50,15 +50,18 @@ if __name__ == "__main__":
         decimal = str(2)
     df = "%."+decimal+"f"
 
+    bin_labels = [("["+df+","+df+")") % (bin_edges[i], bin_edges[i+1]) for i in range(len(bin_edges)-1)]
+    bin_labels[-1] = bin_labels[-1][:-1]+"]"
+
     hist = np.histogram(scores, bins=args.bins, range=(lower,upper))
     for i in range(len(hist[0])):
-        print((df+"\t%.6f") % (bin_edges[i],float(hist[0][i])/len(scores)))
+        print((df+"\t%s\t%.6f") % (bin_edges[i], bin_labels[i], float(hist[0][i])/len(scores)))
     print(df % bin_edges[-1])
-    
+
     if args.plot:
         import matplotlib.pyplot as plt
         width = (bin_edges[1]-bin_edges[0])/2.0
-        plt.xticks(bin_edges[:-1], [("["+df+","+df+"]") % (bin_edges[i],bin_edges[i+1]) for i in range(len(bin_edges)-1)])
+        plt.xticks(bin_edges[:-1], bin_labels)
         plt.bar(bin_edges[:-1], hist[0]/float(len(scores)), width, align='center', alpha=0.5)
         plt.xlim([2*bin_edges[0]-bin_edges[1], bin_edges[-1]])
         plt.show()

@@ -136,7 +136,7 @@ Sample output:
 ```
 ```
 Usage:   sequence-diff.py -f FILE [FILE ...] [-ft FILE_TAG [FILE_TAG ...]]
-                          [-c CONST [CONST ...]] [-ct CONST_TAG [CONST_TAG ...]] [-d] [-v]
+                          [-c CONST [CONST ...]] [-ct CONST_TAG [CONST_TAG ...]] [-d] [-m {char,token}] [-v]
 Example: python sequence-diff.py -c source_file -f reference_file hypothesis_file
 Optional arguments:
   -f FILE [FILE ...], --file FILE [FILE ...]
@@ -150,6 +150,8 @@ Optional arguments:
   -ct CONST_TAG [CONST_TAG ...], --const-tag CONST_TAG [CONST_TAG ...]
                         tags of const files (default: None)
   -d, --condense        condense the comparison of multiple sequences without showing diffs (default: False)
+  -m {char,token}, --mode {char,token}
+                        compute diffs at character level or token level (default: char)
   -v, --verbose         print all sequences in the condense mode (default: False)
 ```
 

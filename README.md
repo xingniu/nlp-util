@@ -183,7 +183,7 @@ Optional arguments:
   -t THRESHOLD, --threshold THRESHOLD
                         similarity threshold to determine identity ([0,1]) (default: 0.9)
   -c, --character       calculate character-level similarity (default: False)
-  -p, --punctuation     do not compare punctuations (default: False)
+  -p, --punc-digit      exclude punctuations and digits from comparison (default: False)
   -l, --lowercase       compare lowercased sequences (default: False)
   -u, --capitalized     compare capitalized sequences (default: False)
   -v, --verbose         print identical pairs (default: False)

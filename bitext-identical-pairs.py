@@ -21,7 +21,8 @@ if __name__ == "__main__":
     parser.add_argument('-t', '--threshold', required=False, type=float, default=0.9,
                         help='similarity threshold to determine identity ([0,1])')
     parser.add_argument('-c', '--character', required=False, action="store_true", help='calculate character-level similarity')
-    parser.add_argument('-p', '--punctuation', required=False, action="store_true", help='do not compare punctuations')
+    parser.add_argument('-p', '--punc-digit', required=False, action="store_true",
+                        help='exclude punctuations and digits from comparison')
     parser.add_argument('-l', '--lowercase', required=False, action="store_true", help='compare lowercased sequences')
     parser.add_argument('-u', '--capitalized', required=False, action="store_true", help='compare capitalized sequences')
     parser.add_argument('-v', '--verbose', required=False, action="store_true", help='print identical pairs')
@@ -29,7 +30,9 @@ if __name__ == "__main__":
 
     python3 = utils.isPython3()
     if python3:
-        punctuations = str.maketrans('', '', string.punctuation)
+        exclusion = str.maketrans('', '', string.punctuation + string.digits)
+    else:
+        exclusion = string.punctuation + string.digits
     whitespaces = re.compile(r"\s+")
 
     if args.output:
@@ -51,13 +54,13 @@ if __name__ == "__main__":
         else:
             str0 = lines[0].strip()
             str1 = lines[1].strip()
-        if args.punctuation:
+        if args.punc_digit:
             if python3:
-                str0 = str0.translate(punctuations)
-                str1 = str1.translate(punctuations)
+                str0 = str0.translate(exclusion)
+                str1 = str1.translate(exclusion)
             else:
-                str0 = str0.translate(None, string.punctuation)
-                str1 = str1.translate(None, string.punctuation)
+                str0 = str0.translate(None, exclusion)
+                str1 = str1.translate(None, exclusion)
         inclusion = str0 in str1 or str1 in str0 if args.inclusion else False
         if not inclusion:
             if args.character:

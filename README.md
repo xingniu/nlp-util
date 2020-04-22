@@ -22,6 +22,7 @@ Random utilities for NLP. Many of them were designed for MT (Machine Translation
 | [ICWSM 2009 Spinn3r Blog Dataset](#icwsm-2009-spinn3r-blog-dataset) | Spinn3r-2009-extract.py | Extract select (and clean) text |
 | [MSLT (Microsoft Speech Language Translation)](#mslt-microsoft-speech-language-translation) | MSLT-repack.sh, MSLT-extract.py | Extract monolingual/parallel data |
 | [PPDB (Paraphrase Database)](#ppdb-paraphrase-database) | PPDB-extract.py | Extract select paraphrases |
+| [XLIFF files](#xliff-files) | XLIFF-extract.py | Extract bitext from XLIFF files |
 
 #### Word Count
 It can also be used for counting/getting OOV (out-of-vocabulary) or IV (in-vocabulary) words.
@@ -275,4 +276,14 @@ Optional arguments:
                         the threshold used for filtering (feature value >= threshold are kept)
   -e ENTAILMENT, --entailment ENTAILMENT
                         the entailment type(s) used for filtering (regular expression)
+```
+
+#### XLIFF files
+```
+Usage:    XLIFF-extract.py [-h] -f FILE [-s {source,target,both}]
+Examples: python XLIFF-extract.py -f RAPID_2019.de-en.xlf > output
+Optional arguments:
+  -f FILE, --file FILE  XLIFF file (default: None)
+  -s {source,target,both}, --side {source,target,both}
+                        side(s) of the bitext to be extracted (default: both)
 ```

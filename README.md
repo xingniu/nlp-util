@@ -284,6 +284,6 @@ Usage:    XLIFF-extract.py [-h] -f FILE [-s {source,target,both}]
 Examples: python XLIFF-extract.py -f RAPID_2019.de-en.xlf > output
 Optional arguments:
   -f FILE, --file FILE  XLIFF file (default: None)
-  -s {source,target,both}, --side {source,target,both}
+  -s {source,target,both,reverse}, --side {source,target,both,reverse}
                         side(s) of the bitext to be extracted (default: both)
 ```

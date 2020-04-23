@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-f', '--file', required=True, help='XLIFF file')
-    parser.add_argument('-s', '--side', required=False, default="both", choices=["source", "target", "both"],
+    parser.add_argument('-s', '--side', required=False, default="both", choices=["source", "target", "both", "reverse"],
                         help='side(s) of the bitext to be extracted')
     args = parser.parse_args()
 
@@ -23,3 +23,5 @@ if __name__ == "__main__":
             print(target)
         elif args.side == "both":
             print("%s\t%s" % (source, target))
+        elif args.side == "reverse":
+            print("%s\t%s" % (target, source))

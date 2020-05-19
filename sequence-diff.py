@@ -45,6 +45,7 @@ if __name__ == "__main__":
         tags.append("SEQUE-B")
         for i in range(1, len(args.file)):
             tags.append("SEQUE-%d" % (i+1))
+    max_tag_len = max(len(t) for t in tags)
 
     diff_counter = 0
     files = [open(f) for f in args.const+args.file]
@@ -58,7 +59,7 @@ if __name__ == "__main__":
         if len(seq_set) > 1 or args.verbose:
             for i in range(ref_index):
                 print("%d %s\t%s" % (counter, tags[i], lines[i].strip()))
-            print("."*100)
+            print("." * 100)
         if args.verbose or len(seq_set) > 1 and args.condense:
             print("%d %s\t%s" % (counter, tags[ref_index], lines[ref_index]))
         found_first_diff = False
@@ -68,15 +69,16 @@ if __name__ == "__main__":
                 print("%d %s\t%s" % (counter, tags[i], lines[i]))
             if has_diff and not args.verbose and not args.condense:
                 if found_first_diff:
-                    print("."*100)
+                    print("." * 100)
                 if args.mode == MODE_CHAR:
+                    diff_spaces = " " * (len(str(counter)) + max_tag_len + 1)
                     for dl in ndiff([lines[ref_index]], [lines[i]]):
                         if dl[0] == '-':
                             print("%d %s\t%s" % (counter, tags[ref_index], dl.strip()[2:]))
                         elif dl[0] == '+':
                             print("%d %s\t%s" % (counter, tags[i], dl.strip()[2:]))
                         else:
-                            print("           \t%s" % (dl.strip()[2:]))
+                            print("%s\t%s" % (diff_spaces, dl.strip()[2:]))
                 elif args.mode == MODE_TOKEN:
                     print("%d %s\t%s" % (counter, tags[ref_index], lines[ref_index]))
                     print("%d %s\t%s" % (counter, tags[i], lines[i]))
@@ -96,7 +98,7 @@ if __name__ == "__main__":
                     print(edits)
                 found_first_diff = True
         if len(seq_set) > 1 or args.verbose:
-            print("="*100)
+            print("=" * 100)
         if len(seq_set) > 1:
             diff_counter += 1
     print("%d lines read and %d diffs found" % (counter, diff_counter))
